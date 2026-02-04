@@ -1,0 +1,64 @@
+@font-face {
+  src:
+    local('Inter-Regular'),
+    url('/fonts/Inter-Regular.woff2') format('woff2'),
+    url('/fonts/Inter-Regular.woff') format('woff');
+  font-family: 'Inter-Regular';
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  src:
+    local('Inter-SemiBold'),
+    url('/fonts/Inter-SemiBold.woff2') format('woff2'),
+    url('/fonts/Inter-SemiBold.woff') format('woff');
+  font-family: 'Inter-SemiBold';
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --black-primary: #1d293d;
+  --white-primary: #ffffff;
+  --blue-primary: #32608a;
+
+  --mask-black-primary: rgb(29, 41, 61, 0.8);
+  --mask-black-secondary: rgb(29, 41, 61, 0.6);
+  --mask-black-thirdly: rgb(29, 41, 61, 0.4);
+  --mask-black-fourthly: rgb(29, 41, 61, 0.2);
+  --mask-black-fifthly: rgb(29, 41, 61, 0.1);
+
+  --border-radius-xxs: 4px;
+  --border-radius-xs: 6px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--white-primary);
+}
+
+button {
+  cursor: pointer;
+}
+
+*,
+*::before,
+*::after,
+button,
+ul,
+li {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  background: none;
+  border: none;
+  list-style: none;
+  text-decoration: none;
+}
