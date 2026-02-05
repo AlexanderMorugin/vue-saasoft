@@ -51,7 +51,11 @@ export const useAccountStore = defineStore('account', () => {
   }
 
   const updateAccount = (name: string, data: string, recordType: string, accountId: number) => {
+    // console.log(data)
+
     if (name === 'markField') {
+      // console.log(data.split(';'))
+
       accounts.value = accounts.value.map((item) =>
         item.id === accountId ? { ...item, recordType: recordType, mark: data } : item,
       )

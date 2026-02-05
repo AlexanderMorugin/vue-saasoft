@@ -7,7 +7,7 @@
       v-model:value="v$.markField.$model"
       :error="v$.markField.$errors"
       @blur="!v$.markField.$errors.length && updateAccount((name = 'markField'), markField)"
-      @clearInput="markField = null"
+      @clearInput="clearMarkInput"
     />
 
     <FormSelect
@@ -16,12 +16,6 @@
       :account="account"
     />
 
-    <!-- <div
-      :class="[
-        'formAccount__login',
-        { formAccount__login_active: recordTypeField && recordTypeField.name === 'LDAP' },
-      ]"
-    > -->
     <div
       :class="[
         'formAccount__login',
@@ -37,7 +31,7 @@
         v-model:value="v$.loginField.$model"
         :error="v$.loginField.$errors"
         @blur="!v$.loginField.$errors.length && updateAccount((name = 'loginField'), loginField)"
-        @clearInput="loginField = null"
+        @clearInput="clearLoginInput"
       />
       <FormInput
         v-if="account.recordType !== 'LDAP'"
@@ -67,12 +61,10 @@ import ButtonDelete from '../button/ButtonDelete.vue'
 
 const { account } = defineProps(['account'])
 
-console.log(account.recordType)
-
 const accountStore = useAccountStore()
 
 // const markField = ref(account.mark || null)
-const markField = ref(account.mark || null)
+const markField = ref(account.mark)
 const recordTypeField = ref(account.recordType)
 const loginField = ref(account.login || null)
 const passwordField = ref(account.password || null)
@@ -109,7 +101,17 @@ const v$ = useVuelidate(rules, {
 })
 
 const updateAccount = (name, data) => {
-  accountStore.updateAccount(name, data, recordTypeField.value.name, account.id)
+  accountStore.updateAccount(name, data, recordTypeField.value?.name, account.id)
+}
+
+const clearMarkInput = () => {
+  updateAccount('markField', null, recordTypeField.value?.name, account.id)
+  markField.value = null
+}
+
+const clearLoginInput = () => {
+  updateAccount('loginField', null, recordTypeField.value?.name, account.id)
+  loginField.value = null
 }
 </script>
 
