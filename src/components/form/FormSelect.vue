@@ -39,13 +39,13 @@ const isDropDownVisible = ref(false)
 const toggleOptionSelect = () => (isDropDownVisible.value = !isDropDownVisible.value)
 
 const mappedSelectedOption = computed(() => {
-  return selectedOption.value?.name || account.recordType
+  return selectedOption.value?.name || account.recordType || options[0].name
 })
 
 const closeOptionSelect = (option) => {
   isDropDownVisible.value = false
   selectedOption.value = option
-  accountStore.updateAccountRecordType(selectedOption.value.name, account.id)
+  accountStore.updateAccountRecordType(mappedSelectedOption, account.id)
   emit('update:value', option)
 }
 

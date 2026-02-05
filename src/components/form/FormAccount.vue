@@ -10,12 +10,24 @@
       @clearInput="markField = null"
     />
 
-    <FormSelect :options="recordTypes" v-model:value="recordTypeField" :account="account" />
+    <FormSelect
+      :options="accountStore.recordTypes"
+      v-model:value="recordTypeField"
+      :account="account"
+    />
 
-    <div
+    <!-- <div
       :class="[
         'formAccount__login',
         { formAccount__login_active: recordTypeField && recordTypeField.name === 'LDAP' },
+      ]"
+    > -->
+    <div
+      :class="[
+        'formAccount__login',
+        {
+          formAccount__login_active: account.recordType === 'LDAP',
+        },
       ]"
     >
       <FormInput
@@ -28,7 +40,7 @@
         @clearInput="loginField = null"
       />
       <FormInput
-        v-if="!recordTypeField || recordTypeField.name !== 'LDAP'"
+        v-if="account.recordType !== 'LDAP'"
         :type="passwordType"
         name="passwordField"
         placeholder="Значение"
@@ -40,10 +52,7 @@
         @openPassword="openPassword"
       />
     </div>
-    <ButtonDelete
-      v-if="markField || loginField || passwordField"
-      @deleteAccount="accountStore.deleteAccount(account.id)"
-    />
+    <ButtonDelete v-if="account.id" @deleteAccount="accountStore.deleteAccount(account.id)" />
   </div>
 </template>
 
@@ -58,15 +67,12 @@ import ButtonDelete from '../button/ButtonDelete.vue'
 
 const { account } = defineProps(['account'])
 
+console.log(account.recordType)
+
 const accountStore = useAccountStore()
 
-const recordTypes = [
-  { id: 1, name: 'Локальная' },
-  { id: 2, name: 'LDAP' },
-]
-
+// const markField = ref(account.mark || null)
 const markField = ref(account.mark || null)
-// const recordTypeField = ref(account.recordType || recordTypes[0].name)
 const recordTypeField = ref(account.recordType)
 const loginField = ref(account.login || null)
 const passwordField = ref(account.password || null)

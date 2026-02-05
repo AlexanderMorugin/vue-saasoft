@@ -1,8 +1,13 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
+// export type TMark = {
+//   text: string
+// }
+
 export interface IAccount {
   id: number
+
   mark?: string | null
   recordType?: string | null
   login?: string | null
@@ -11,6 +16,11 @@ export interface IAccount {
 
 export const useAccountStore = defineStore('account', () => {
   const accounts = ref<IAccount[] | null>([])
+
+  const recordTypes = ref([
+    { id: 1, name: 'Локальная' },
+    { id: 2, name: 'LDAP' },
+  ])
 
   const localStorageAccounts = localStorage.getItem('accounts')
 
@@ -22,7 +32,7 @@ export const useAccountStore = defineStore('account', () => {
     if (!accounts.value.length) {
       accounts.value.push({
         id: 1,
-        recordType: null,
+        recordType: recordTypes.value[0].name,
         mark: null,
         login: null,
         password: null,
@@ -30,7 +40,7 @@ export const useAccountStore = defineStore('account', () => {
     } else {
       accounts.value.push({
         id: accounts.value[accounts.value.length - 1].id + 1,
-        recordType: null,
+        recordType: recordTypes.value[0].name,
         mark: null,
         login: null,
         password: null,
@@ -77,6 +87,7 @@ export const useAccountStore = defineStore('account', () => {
 
   return {
     accounts,
+    recordTypes,
     localStorageAccounts,
     createAccount,
     updateAccount,
