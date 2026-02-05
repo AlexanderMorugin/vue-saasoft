@@ -1,5 +1,5 @@
 <template>
-  <button class="buttonAdd" @click="accountStore.createAccount(data)">
+  <button class="buttonAdd" @click="accountStore.createAccount()">
     <IconPlus class="buttonAdd__icon" />
   </button>
 </template>

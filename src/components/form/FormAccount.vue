@@ -7,7 +7,7 @@
       v-model:value="markField"
       @clearInput="markField = null"
     />
-    <span class="formHeader__name">Тип записи</span>
+    <FormSelect :options="recordTypes" v-model:value="recordTypeField" />
     <FormInput
       type="text"
       name="loginField"
@@ -29,12 +29,19 @@
 <script setup>
 import { ref } from 'vue'
 import FormInput from './FormInput.vue'
+import FormSelect from './FormSelect.vue'
 import ButtonDelete from '../button/ButtonDelete.vue'
 
 const markField = ref(null)
+const recordTypeField = ref(null)
 const loginField = ref(null)
 const passwordField = ref(null)
 const passwordType = ref('password')
+
+const recordTypes = [
+  { id: 1, name: 'Локальная' },
+  { id: 2, name: 'LDAP' },
+]
 
 const openPassword = () => {
   if (passwordType.value === 'password') {
