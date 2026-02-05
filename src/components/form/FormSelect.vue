@@ -1,6 +1,6 @@
 <template>
   <div class="formField" ref="dropDown">
-    <div class="formInput dropDownOption" @click="openOptionSelect">
+    <div class="formInput dropDownOption" @click="toggleOptionSelect">
       <span>{{ mappedSelectedOption }}</span>
       <IconArrow
         :class="[
@@ -16,7 +16,7 @@
         :class="['optionText', { optionText_active: isDropDownVisible }]"
         @click="closeOptionSelect(option)"
       >
-        {{ option.name || option }}
+        {{ option.name }}
       </li>
     </ul>
   </div>
@@ -24,24 +24,28 @@
 
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { useAccountStore } from '@/stores/account'
 import IconArrow from '../icon/IconArrow.vue'
 
-const { options } = defineProps(['options'])
+const { options, account } = defineProps(['options', 'account'])
 const emit = defineEmits(['update:value'])
+
+const accountStore = useAccountStore()
 
 const dropDown = ref(null)
 const selectedOption = ref(null)
 const isDropDownVisible = ref(false)
 
-const mappedSelectedOption = computed(() => {
-  return selectedOption.value?.name || selectedOption.value?.value || 'Выберите тип'
-})
+const toggleOptionSelect = () => (isDropDownVisible.value = !isDropDownVisible.value)
 
-const openOptionSelect = () => (isDropDownVisible.value = true)
+const mappedSelectedOption = computed(() => {
+  return selectedOption.value?.name || account.recordType
+})
 
 const closeOptionSelect = (option) => {
   isDropDownVisible.value = false
   selectedOption.value = option
+  accountStore.updateAccountRecordType(selectedOption.value.name, account.id)
   emit('update:value', option)
 }
 

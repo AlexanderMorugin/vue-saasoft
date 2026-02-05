@@ -6,8 +6,9 @@
       :name="name"
       :placeholder="placeholder"
       :value="value"
-      @input="updateValue"
-      class="formInput"
+      @change="updateValue"
+      @blur="emit('blur')"
+      :class="['formInput', { formInput_error: error.length }]"
     />
 
     <span v-for="item in error" :key="item.$uid" class="formInput__error">{{ item.$message }}</span>
@@ -44,7 +45,7 @@ const { type, name, placeholder, value, error } = defineProps([
   'error',
 ])
 
-const emit = defineEmits(['update:value', 'clearInput', 'openPassword'])
+const emit = defineEmits(['update:value', 'blur', 'clearInput', 'openPassword'])
 
 const updateValue = (e) => emit('update:value', e.target.value)
 </script>

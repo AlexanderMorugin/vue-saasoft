@@ -32,6 +32,9 @@
 .formInput:focus::placeholder {
   color: transparent;
 }
+.formInput_error {
+  border: 1px solid var(--red-primary);
+}
 .formField__button {
   position: absolute;
   top: 0;

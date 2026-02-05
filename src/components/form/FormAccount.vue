@@ -4,14 +4,18 @@
       type="text"
       name="markField"
       placeholder="Значение"
-      v-model:value="markField"
+      v-model:value="v$.markField.$model"
+      :error="v$.markField.$errors"
+      @blur="!v$.markField.$errors.length && updateAccount((name = 'markField'), markField)"
       @clearInput="markField = null"
     />
-    <FormSelect :options="recordTypes" v-model:value="recordTypeField" />
+
+    <FormSelect :options="recordTypes" v-model:value="recordTypeField" :account="account" />
+
     <div
       :class="[
         'formAccount__login',
-        { formAccount__login_active: recordTypeField.name === 'LDAP' },
+        { formAccount__login_active: recordTypeField && recordTypeField.name === 'LDAP' },
       ]"
     >
       <FormInput
@@ -20,15 +24,19 @@
         placeholder="Значение"
         v-model:value="v$.loginField.$model"
         :error="v$.loginField.$errors"
+        @blur="!v$.loginField.$errors.length && updateAccount((name = 'loginField'), loginField)"
         @clearInput="loginField = null"
       />
       <FormInput
-        v-if="recordTypeField.name !== 'LDAP'"
+        v-if="!recordTypeField || recordTypeField.name !== 'LDAP'"
         :type="passwordType"
         name="passwordField"
         placeholder="Значение"
         v-model:value="v$.passwordField.$model"
         :error="v$.passwordField.$errors"
+        @blur="
+          !v$.passwordField.$errors.length && updateAccount((name = 'passwordField'), passwordField)
+        "
         @openPassword="openPassword"
       />
     </div>
@@ -57,10 +65,11 @@ const recordTypes = [
   { id: 2, name: 'LDAP' },
 ]
 
-const markField = ref(null)
-const recordTypeField = ref(recordTypes[0].name)
-const loginField = ref(null)
-const passwordField = ref(null)
+const markField = ref(account.mark || null)
+// const recordTypeField = ref(account.recordType || recordTypes[0].name)
+const recordTypeField = ref(account.recordType)
+const loginField = ref(account.login || null)
+const passwordField = ref(account.password || null)
 const passwordType = ref('password')
 
 const openPassword = () => {
@@ -74,22 +83,28 @@ const openPassword = () => {
 
 // Валидация
 const rules = computed(() => ({
+  markField: {
+    maxLength: helpers.withMessage('Не более 50 символов', maxLength(50)),
+  },
   loginField: {
     required: helpers.withMessage('Укажите логин', required),
-    maxLength: helpers.withMessage('Не более 100 символов', maxLength(10)),
+    maxLength: helpers.withMessage('Не более 100 символов', maxLength(100)),
   },
   passwordField: {
     required: helpers.withMessage('Укажите пароль', required),
-    maxLength: helpers.withMessage('Не более 100 символов', maxLength(10)),
+    maxLength: helpers.withMessage('Не более 100 символов', maxLength(100)),
   },
 }))
 
 const v$ = useVuelidate(rules, {
+  markField,
   loginField,
   passwordField,
 })
 
-// const isValid = computed(() => v$.value.$errors)
+const updateAccount = (name, data) => {
+  accountStore.updateAccount(name, data, recordTypeField.value.name, account.id)
+}
 </script>
 
 <style scoped>
