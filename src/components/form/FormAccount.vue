@@ -18,7 +18,8 @@
         type="text"
         name="loginField"
         placeholder="Значение"
-        v-model:value="loginField"
+        v-model:value="v$.loginField.$model"
+        :error="v$.loginField.$errors"
         @clearInput="loginField = null"
       />
       <FormInput
@@ -26,7 +27,8 @@
         :type="passwordType"
         name="passwordField"
         placeholder="Значение"
-        v-model:value="passwordField"
+        v-model:value="v$.passwordField.$model"
+        :error="v$.passwordField.$errors"
         @openPassword="openPassword"
       />
     </div>
@@ -35,7 +37,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useVuelidate } from '@vuelidate/core'
+import { helpers, required, maxLength } from '@vuelidate/validators'
+
 import FormInput from './FormInput.vue'
 import FormSelect from './FormSelect.vue'
 import ButtonDelete from '../button/ButtonDelete.vue'
@@ -59,6 +64,25 @@ const openPassword = () => {
     return (passwordType.value = 'password')
   }
 }
+
+// Валидация
+const rules = computed(() => ({
+  loginField: {
+    required: helpers.withMessage('Укажите логин', required),
+    maxLength: helpers.withMessage('Не более 100 символов', maxLength(10)),
+  },
+  passwordField: {
+    required: helpers.withMessage('Укажите пароль', required),
+    maxLength: helpers.withMessage('Не более 100 символов', maxLength(10)),
+  },
+}))
+
+const v$ = useVuelidate(rules, {
+  loginField,
+  passwordField,
+})
+
+// const isValid = computed(() => v$.value.$errors)
 </script>
 
 <style scoped>

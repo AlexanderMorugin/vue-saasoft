@@ -10,11 +10,7 @@
       class="formInput"
     />
 
-    <!-- <TransitionGroup name="list" tag="ul">
-      <span v-for="item in error" :key="item.$uid" class="form-input-error">{{
-        item.$message
-      }}</span>
-    </TransitionGroup> -->
+    <span v-for="item in error" :key="item.$uid" class="formInput__error">{{ item.$message }}</span>
 
     <IconVisibilityOff
       v-if="value && name === 'passwordField' && type === 'password'"
@@ -40,13 +36,13 @@ import IconClear from '../icon/IconClear.vue'
 import IconVisibilityOff from '../icon/IconVisibilityOff.vue'
 import IconVisibility from '../icon/IconVisibility.vue'
 
-const {
-  type,
-  name,
-  placeholder,
-  value,
-  // ,   error
-} = defineProps(['type', 'name', 'placeholder', 'value', 'error'])
+const { type, name, placeholder, value, error } = defineProps([
+  'type',
+  'name',
+  'placeholder',
+  'value',
+  'error',
+])
 
 const emit = defineEmits(['update:value', 'clearInput', 'openPassword'])
 
