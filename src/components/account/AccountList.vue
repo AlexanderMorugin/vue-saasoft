@@ -1,7 +1,7 @@
 <template>
   <ul class="accountList">
-    <li v-for="(item, index) in accountStore.accounts" :key="index">
-      <FormAccount />
+    <li v-for="account in accountStore.accounts" :key="account.id">
+      <FormAccount :account="account" />
     </li>
   </ul>
 </template>

@@ -1,11 +1,13 @@
 <template>
-  <button class="buttonDelete">
+  <button class="buttonDelete" @click="emit('deleteAccount')">
     <IconDelete class="buttonDelete__icon" />
   </button>
 </template>
 
 <script setup>
 import IconDelete from '../icon/IconDelete.vue'
+
+const emit = defineEmits(['deleteAccount'])
 </script>
 
 <style scoped>

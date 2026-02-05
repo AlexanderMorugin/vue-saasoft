@@ -1,5 +1,5 @@
 <template>
-  <form class="formAccount">
+  <div class="formAccount">
     <FormInput
       type="text"
       name="markField"
@@ -32,18 +32,25 @@
         @openPassword="openPassword"
       />
     </div>
-    <ButtonDelete v-if="markField || loginField || passwordField" />
-  </form>
+    <ButtonDelete
+      v-if="markField || loginField || passwordField"
+      @deleteAccount="accountStore.deleteAccount(account.id)"
+    />
+  </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, maxLength } from '@vuelidate/validators'
-
+import { useAccountStore } from '@/stores/account'
 import FormInput from './FormInput.vue'
 import FormSelect from './FormSelect.vue'
 import ButtonDelete from '../button/ButtonDelete.vue'
+
+const { account } = defineProps(['account'])
+
+const accountStore = useAccountStore()
 
 const recordTypes = [
   { id: 1, name: 'Локальная' },
