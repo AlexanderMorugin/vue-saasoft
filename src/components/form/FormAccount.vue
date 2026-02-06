@@ -65,7 +65,7 @@ const { account } = defineProps(['account'])
 const accountStore = useAccountStore()
 
 // const markField = ref(account.mark || null)
-const markField = ref(account.mark)
+const markField = ref(account.mark && account.mark.map((item) => item.text).join('; '))
 const recordTypeField = ref(account.recordType)
 const loginField = ref(account.login || null)
 const passwordField = ref(account.password || null)

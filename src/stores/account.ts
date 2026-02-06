@@ -58,7 +58,7 @@ export const useAccountStore = defineStore('account', () => {
               ...item,
               recordType: recordType,
               mark: data
-                ? data.split('; ').map((item) => ({
+                ? data.split(';').map((item) => ({
                     text: item.trim(),
                   }))
                 : null,
