@@ -1,33 +1,33 @@
 <template>
   <div class="formField">
     <input
-      :type="type"
-      :id="name"
-      :name="name"
-      :placeholder="placeholder"
-      :value="value"
+      :type="props.type"
+      :id="props.name"
+      :name="props.name"
+      :placeholder="props.placeholder"
+      :value="props.value"
       @change="updateValue"
       @blur="emit('blur')"
-      :class="['formInput', { formInput_error: error.length }]"
+      :class="['formInput', { formInput_error: props.error.length }]"
     />
 
-    <span v-for="item in error" :key="item.$uid" class="formInput__errorMessage">{{
+    <span v-for="item in props.error" :key="item.$uid" class="formInput__errorMessage">{{
       item.$message
     }}</span>
 
     <IconVisibilityOff
-      v-if="value && name === 'passwordField' && type === 'password'"
+      v-if="props.value && props.name === 'passwordField' && props.type === 'password'"
       class="formField__button formField__button_visibility"
       @click="$emit('openPassword')"
     />
     <IconVisibility
-      v-if="value && name === 'passwordField' && type === 'text'"
+      v-if="props.value && props.name === 'passwordField' && props.type === 'text'"
       class="formField__button formField__button_visibility"
       @click="$emit('openPassword')"
     />
 
     <IconClear
-      v-if="value && name !== 'passwordField'"
+      v-if="props.value && props.name !== 'passwordField'"
       class="formField__button formField__button_clear"
       @click="$emit('clearInput')"
     />
@@ -39,13 +39,13 @@ import IconClear from '../icon/IconClear.vue'
 import IconVisibilityOff from '../icon/IconVisibilityOff.vue'
 import IconVisibility from '../icon/IconVisibility.vue'
 
-const { type, name, placeholder, value, error } = defineProps([
-  'type',
-  'name',
-  'placeholder',
-  'value',
-  'error',
-])
+const props = defineProps({
+  type: String,
+  name: String,
+  placeholder: String,
+  value: String,
+  error: String,
+})
 
 const emit = defineEmits(['update:value', 'blur', 'clearInput', 'openPassword'])
 

@@ -6,8 +6,7 @@ export type TMark = {
 }
 
 export interface IAccount {
-  id: number
-
+  id?: number
   mark?: TMark[] | null
   recordType?: string | null
   login?: string | null

@@ -11,7 +11,7 @@
     </div>
     <ul :class="['optionList', { optionList_active: isDropDownVisible }]">
       <li
-        v-for="option in options"
+        v-for="option in props.options"
         :key="option.id"
         :class="['optionText', { optionText_active: isDropDownVisible }]"
         @click="closeOptionSelect(option)"
@@ -27,7 +27,16 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useAccountStore } from '@/stores/account'
 import IconArrow from '../icon/IconArrow.vue'
 
-const { options, account } = defineProps(['options', 'account'])
+const props = defineProps({
+  options: Array,
+  account: {
+    id: Number,
+    mark: String,
+    recordType: String,
+    login: String,
+    password: String,
+  },
+})
 const emit = defineEmits(['update:value'])
 
 const accountStore = useAccountStore()
@@ -39,13 +48,13 @@ const isDropDownVisible = ref(false)
 const toggleOptionSelect = () => (isDropDownVisible.value = !isDropDownVisible.value)
 
 const mappedSelectedOption = computed(() => {
-  return selectedOption.value?.name || account.recordType || options[0].name
+  return selectedOption.value?.name || props.account.recordType || props.options[0].name
 })
 
 const closeOptionSelect = (option) => {
   isDropDownVisible.value = false
   selectedOption.value = option
-  accountStore.updateAccountRecordType(mappedSelectedOption, account.id)
+  accountStore.updateAccountRecordType(mappedSelectedOption, props.account.id)
   emit('update:value', option)
 }
 

@@ -13,7 +13,7 @@
     <FormSelect
       :options="accountStore.recordTypes"
       v-model:value="recordTypeField"
-      :account="account"
+      :account="props.account"
     />
 
     <div
@@ -46,7 +46,10 @@
         @openPassword="openPassword"
       />
     </div>
-    <ButtonDelete v-if="account.id" @deleteAccount="accountStore.deleteAccount(account.id)" />
+    <ButtonDelete
+      v-if="props.account.id"
+      @deleteAccount="accountStore.deleteAccount(props.account.id)"
+    />
   </div>
 </template>
 
@@ -60,15 +63,22 @@ import FormTextarea from './FormTextarea.vue'
 import FormSelect from './FormSelect.vue'
 import ButtonDelete from '../button/ButtonDelete.vue'
 
-const { account } = defineProps(['account'])
+const props = defineProps({
+  account: {
+    id: Number,
+    mark: String,
+    recordType: String,
+    login: String,
+    password: String,
+  },
+})
 
 const accountStore = useAccountStore()
 
-// const markField = ref(account.mark || null)
-const markField = ref(account.mark && account.mark.map((item) => item.text).join('; '))
-const recordTypeField = ref(account.recordType)
-const loginField = ref(account.login || null)
-const passwordField = ref(account.password || null)
+const markField = ref(props.account.mark && props.account.mark.map((item) => item.text).join('; '))
+const recordTypeField = ref(props.account.recordType)
+const loginField = ref(props.account.login || null)
+const passwordField = ref(props.account.password || null)
 const passwordType = ref('password')
 
 const openPassword = () => {
@@ -102,16 +112,16 @@ const v$ = useVuelidate(rules, {
 })
 
 const updateAccount = (name, data) => {
-  accountStore.updateAccount(name, data, recordTypeField.value?.name, account.id)
+  accountStore.updateAccount(name, data, recordTypeField.value?.name, props.account.id)
 }
 
 const clearMarkInput = () => {
-  updateAccount('markField', null, recordTypeField.value?.name, account.id)
+  updateAccount('markField', null, recordTypeField.value?.name, props.account.id)
   markField.value = null
 }
 
 const clearLoginInput = () => {
-  updateAccount('loginField', null, recordTypeField.value?.name, account.id)
+  updateAccount('loginField', null, recordTypeField.value?.name, props.account.id)
   loginField.value = null
 }
 </script>
