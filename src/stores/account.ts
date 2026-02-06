@@ -1,14 +1,14 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-// export type TMark = {
-//   text: string
-// }
+export type TMark = {
+  text: string
+}
 
 export interface IAccount {
   id: number
 
-  mark?: string | null
+  mark?: TMark[] | null
   recordType?: string | null
   login?: string | null
   password?: string | null
@@ -51,13 +51,19 @@ export const useAccountStore = defineStore('account', () => {
   }
 
   const updateAccount = (name: string, data: string, recordType: string, accountId: number) => {
-    // console.log(data)
-
     if (name === 'markField') {
-      // console.log(data.split(';'))
-
       accounts.value = accounts.value.map((item) =>
-        item.id === accountId ? { ...item, recordType: recordType, mark: data } : item,
+        item.id === accountId
+          ? {
+              ...item,
+              recordType: recordType,
+              mark: data
+                ? data.split('; ').map((item) => ({
+                    text: item.trim(),
+                  }))
+                : null,
+            }
+          : item,
       )
       localStorage.setItem('accounts', JSON.stringify(accounts.value))
     }
@@ -77,7 +83,7 @@ export const useAccountStore = defineStore('account', () => {
 
   const updateAccountRecordType = (recordType: string, accountId: number) => {
     accounts.value = accounts.value.map((item) =>
-      item.id === accountId ? { ...item, recordType: recordType } : item,
+      item.id === accountId ? { ...item, recordType: recordType, password: null } : item,
     )
 
     localStorage.setItem('accounts', JSON.stringify(accounts.value))

@@ -1,6 +1,6 @@
 <template>
   <div class="formAccount">
-    <FormInput
+    <FormTextarea
       type="text"
       name="markField"
       placeholder="Значение"
@@ -56,6 +56,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, maxLength } from '@vuelidate/validators'
 import { useAccountStore } from '@/stores/account'
 import FormInput from './FormInput.vue'
+import FormTextarea from './FormTextarea.vue'
 import FormSelect from './FormSelect.vue'
 import ButtonDelete from '../button/ButtonDelete.vue'
 
@@ -119,13 +120,12 @@ const clearLoginInput = () => {
 .formAccount {
   display: grid;
   grid-template-columns: 320px 320px 660px 40px;
-  align-items: center;
   gap: 20px;
+  height: fit-content;
 }
 .formAccount__login {
   display: grid;
   grid-template-columns: 320px 320px;
-  align-items: center;
   gap: 20px;
 }
 .formAccount__login_active {

@@ -1,6 +1,6 @@
 <template>
-  <div class="formField">
-    <input
+  <div class="formFieldTextarea">
+    <textarea
       :type="type"
       :id="name"
       :name="name"
@@ -8,10 +8,10 @@
       :value="value"
       @change="updateValue"
       @blur="emit('blur')"
-      :class="['formInput', { formInput_error: error.length }]"
+      :class="['formTextarea', { formTextarea_error: error.length }]"
     />
 
-    <span v-for="item in error" :key="item.$uid" class="formInput__errorMessage">{{
+    <span v-for="item in error" :key="item.$uid" class="formTextarea__errorMessage">{{
       item.$message
     }}</span>
 

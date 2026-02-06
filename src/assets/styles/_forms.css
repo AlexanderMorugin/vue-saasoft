@@ -1,5 +1,6 @@
 .formField {
   position: relative;
+  height: 40px;
 }
 .formInput {
   width: 100%;
@@ -35,11 +36,63 @@
 .formInput_error {
   border: 1px solid var(--red-primary);
 }
+.formInput__errorMessage {
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  font-family: 'Inter-Regular', sans-serif;
+  font-size: 12px;
+  color: var(--red-primary);
+}
+.formFieldTextarea {
+  position: relative;
+}
+.formTextarea {
+  position: relative;
+  width: 100%;
+  min-height: 20px;
+  height: 100%;
+  font-family: 'Inter-Regular', sans-serif;
+  font-size: 14px;
+  color: var(--black-primary);
+  border-radius: var(--border-radius-xxs);
+  border: 1px solid var(--mask-black-thirdly);
+  transition: 0.25s ease all;
+  padding-left: 13px;
+  padding-right: 40px;
+}
+.formTextarea:focus {
+  font-family: 'Inter-Regular', sans-serif;
+  font-size: 14px;
+  color: var(--black-primary);
+  outline: 0;
+  border: 1px solid var(--blue-primary);
+  padding: 12px 40px 0px 13px;
+}
+.formTextarea::placeholder {
+  position: absolute;
+  top: 10px;
+  font-family: 'Inter-Regular', sans-serif;
+  font-size: 14px;
+  color: var(--mask-black-secondary);
+  transition: 0.5s ease;
+}
+.formTextarea:focus::placeholder {
+  color: transparent;
+}
+.formTextarea_error {
+  border: 1px solid var(--red-primary);
+}
+.formTextarea__errorMessage {
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  font-family: 'Inter-Regular', sans-serif;
+  font-size: 12px;
+  color: var(--red-primary);
+}
 .formField__button {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  margin: auto 0;
   right: 13px;
   fill: var(--mask-black-secondary);
   transition: 0.2s ease;
@@ -49,26 +102,21 @@
   fill: var(--black-primary);
 }
 .formField__button_clear {
+  top: 11px;
   width: 18px;
   height: 18px;
 }
 .formField__button_visibility {
+  top: 8px;
   width: 24px;
   height: 24px;
 }
 .formField__arrow {
+  top: 8px;
   width: 24px;
   height: 24px;
   transform: rotate(90deg);
 }
 .formField__arrow_active {
   transform: rotate(270deg);
-}
-.formInput__error {
-  position: absolute;
-  bottom: -15px;
-  left: 0;
-  font-family: 'Inter-Regular', sans-serif;
-  font-size: 12px;
-  color: var(--red-primary);
 }
